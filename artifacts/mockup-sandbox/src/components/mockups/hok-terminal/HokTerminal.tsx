@@ -66,19 +66,19 @@ const PALETTES: Record<
     tmux: "#83c889",
   },
   "Termius-like": {
-    bg: "#172126",
-    panel: "#203039",
-    panelRaised: "#293a43",
-    ink: "#e5efed",
-    muted: "#8ea7a6",
-    line: "#3e5559",
-    accent: "#80c7bc",
-    accentSoft: "#315b5b",
-    terminal: "#101c23",
-    terminalInk: "#d7e7e3",
-    terminalMuted: "#74918d",
-    terminalLine: "#263a3f",
-    tmux: "#8bd4bd",
+    bg: "#011627",
+    panel: "#0a2233",
+    panelRaised: "#12344a",
+    ink: "#e8f1f2",
+    muted: "#8ca6ad",
+    line: "#294b5c",
+    accent: "#7fdbca",
+    accentSoft: "#245b65",
+    terminal: "#01111f",
+    terminalInk: "#d6e7e9",
+    terminalMuted: "#6f929d",
+    terminalLine: "#17384a",
+    tmux: "#9fe3b1",
   },
   "High Contrast": {
     bg: "#121313",
@@ -219,7 +219,7 @@ function SectionLabel({ children }: { children: ReactNode }) {
 }
 
 export default function HokTerminal() {
-  const [paletteName, setPaletteName] = useState<PaletteName>("HOK Dark");
+  const [paletteName, setPaletteName] = useState<PaletteName>("Termius-like");
   const [zoom, setZoom] = useState(100);
   const [sessions, setSessions] = useState<Session[]>(INITIAL_SESSIONS);
   const [activeSessionId, setActiveSessionId] = useState(1);
@@ -346,9 +346,9 @@ export default function HokTerminal() {
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-[13px] font-bold tracking-[0.16em]">HOK OS</span>
-                <span className="hidden rounded-full border px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.12em] sm:inline" style={{ color: "var(--hok-accent)", borderColor: "var(--hok-accent-soft)" }}>operator console</span>
+                <span className="hidden rounded-full border px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-[0.12em] sm:inline" style={{ color: "var(--hok-accent)", borderColor: "var(--hok-accent-soft)" }}>Hokmá ecosystem</span>
               </div>
-              <p className="mt-0.5 truncate text-[10px]" style={{ color: "var(--hok-muted)" }}>focused command surface / {sessions.length} sessions</p>
+              <p className="mt-0.5 truncate text-[10px]" style={{ color: "var(--hok-muted)" }}>micro SaaS command surface / {sessions.length} sessions</p>
             </div>
           </div>
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -444,7 +444,7 @@ export default function HokTerminal() {
               <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(var(--hok-terminal-ink) 1px, transparent 1px)", backgroundSize: "100% 24px" }} />
               <div className="relative flex h-full flex-col justify-between p-4 sm:p-6">
                 <div className="max-w-xl font-mono text-[11px] leading-[2] sm:text-xs" style={{ color: "var(--hok-terminal-ink)" }}>
-                  <div style={{ color: "var(--hok-terminal-muted)" }}>hok ttyd / cross-origin terminal surface</div>
+                  <div style={{ color: "var(--hok-terminal-muted)" }}>Hokmá micro SaaS / cross-origin ttyd surface</div>
                   <div className="mt-3"><span style={{ color: "var(--hok-tmux)" }}>operator@{currentSession.name}</span><span style={{ color: "var(--hok-terminal-muted)" }}>:</span><span style={{ color: "var(--hok-accent)" }}>~</span><span style={{ color: "var(--hok-terminal-muted)" }}>$</span> systemctl status edge-gateway</div>
                   <div className="mt-1" style={{ color: "var(--hok-tmux)" }}>● edge-gateway.service — active (running)</div>
                   <div style={{ color: "var(--hok-terminal-muted)" }}>   loaded: enabled · uptime: 14d 06h 22m</div>
