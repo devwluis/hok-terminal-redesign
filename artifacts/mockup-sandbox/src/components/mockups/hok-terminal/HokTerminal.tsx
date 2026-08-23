@@ -356,7 +356,15 @@ export default function HokTerminal() {
               <button type="button" aria-label="Decrease zoom" disabled={zoom <= 70} onClick={() => changeZoom(-10)} className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-white/10 disabled:opacity-30">
                 <Minus size={13} />
               </button>
-              <span className="w-9 text-center font-mono text-[10px]" style={{ color: "var(--hok-muted)" }}>{zoom}%</span>
+              <button
+                type="button"
+                onClick={() => setZoom(100)}
+                title="Reset terminal zoom to 100%"
+                className="w-9 text-center font-mono text-[10px] transition-colors hover:text-[var(--hok-accent)]"
+                style={{ color: "var(--hok-muted)" }}
+              >
+                {zoom}%
+              </button>
               <button type="button" aria-label="Increase zoom" disabled={zoom >= 160} onClick={() => changeZoom(10)} className="flex h-6 w-6 items-center justify-center rounded transition-colors hover:bg-white/10 disabled:opacity-30">
                 <Plus size={13} />
               </button>
@@ -442,8 +450,14 @@ export default function HokTerminal() {
               style={{ background: "var(--hok-terminal)", borderColor: "var(--hok-terminal-line)", boxShadow: "inset 0 1px 0 rgba(255,255,255,.025)" }}
             >
               <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(var(--hok-terminal-ink) 1px, transparent 1px)", backgroundSize: "100% 24px" }} />
-              <div className="relative flex h-full flex-col justify-between p-4 sm:p-6">
-                <div className="max-w-xl font-mono text-[11px] leading-[2] sm:text-xs" style={{ color: "var(--hok-terminal-ink)" }}>
+                <div className="relative flex h-full flex-col justify-between p-4 sm:p-6">
+                <div
+                  className="max-w-xl font-mono leading-[2]"
+                  style={{
+                    color: "var(--hok-terminal-ink)",
+                    fontSize: `${11 * zoom / 100}px`,
+                  }}
+                >
                   <div style={{ color: "var(--hok-terminal-muted)" }}>Hokmá micro SaaS / cross-origin ttyd surface</div>
                   <div className="mt-3"><span style={{ color: "var(--hok-tmux)" }}>operator@{currentSession.name}</span><span style={{ color: "var(--hok-terminal-muted)" }}>:</span><span style={{ color: "var(--hok-accent)" }}>~</span><span style={{ color: "var(--hok-terminal-muted)" }}>$</span> systemctl status edge-gateway</div>
                   <div className="mt-1" style={{ color: "var(--hok-tmux)" }}>● edge-gateway.service — active (running)</div>
