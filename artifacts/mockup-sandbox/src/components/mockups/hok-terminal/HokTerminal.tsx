@@ -3,6 +3,7 @@ import {
   Circle,
   Command,
   Copy,
+  Globe2,
   Keyboard,
   Maximize2,
   MessageCircle,
@@ -102,6 +103,10 @@ const INITIAL_SESSIONS: Session[] = [
   { id: 2, name: "log-stream", host: "ops / fra-01", state: "idle" },
   { id: 3, name: "staging", host: "dev / sfo-03", state: "idle" },
 ];
+
+// The production app will provide this cross-origin ttyd URL at runtime.
+// The parent shell must not attempt to style or inspect the iframe contents.
+const TTYD_URL = "https://terminal.imoveischaves.com";
 
 const specialKeys = [
   { label: "Ctrl", short: "⌃" },
@@ -229,6 +234,7 @@ export default function HokTerminal() {
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [maximized, setMaximized] = useState(false);
   const [minimized, setMinimized] = useState(false);
+  const [ttydEnabled, setTtydEnabled] = useState(false);
   const [lastInput, setLastInput] = useState("ready · attach to ttyd");
   const [activeDock, setActiveDock] = useState("Terminal");
   const palette = PALETTES[paletteName];
@@ -440,6 +446,19 @@ export default function HokTerminal() {
                 <button type="button" onClick={() => setLastInput("terminal search is simulated locally")} title="Search terminal" className="rounded p-1 transition-colors hover:bg-white/10" style={{ color: "var(--hok-muted)" }}><Search size={13} /></button>
                 <button type="button" onClick={() => setLastInput("terminal buffer copied")} title="Copy terminal buffer" className="rounded p-1 transition-colors hover:bg-white/10" style={{ color: "var(--hok-muted)" }}><Copy size={13} /></button>
                 <button type="button" onClick={() => setLastInput("reconnect requested")} title="Reconnect session" className="rounded p-1 transition-colors hover:bg-white/10" style={{ color: "var(--hok-muted)" }}><RotateCcw size={13} /></button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTtydEnabled((value) => !value);
+                    setLastInput(ttydEnabled ? "simulation restored" : "ttyd iframe enabled");
+                  }}
+                  title={ttydEnabled ? "Show simulated terminal" : "Open configured ttyd iframe"}
+                  aria-pressed={ttydEnabled}
+                  className="rounded p-1 transition-colors hover:bg-white/10"
+                  style={{ color: ttydEnabled ? "var(--hok-tmux)" : "var(--hok-muted)" }}
+                >
+                  <Globe2 size={13} />
+                </button>
                 <button type="button" onClick={() => setMaximized((value) => !value)} title={maximized ? "Exit full-screen terminal" : "Maximize terminal"} className="rounded p-1 transition-colors hover:bg-white/10" style={{ color: "var(--hok-accent)" }}>
                   {maximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
                 </button>
@@ -469,6 +488,16 @@ export default function HokTerminal() {
                   cross-origin ttyd placeholder · terminal text is owned by the embedded surface
                 </div>
               </div>
+              <iframe
+                title="Configured ttyd cross-origin terminal"
+                src={TTYD_URL}
+                allow="clipboard-read; clipboard-write"
+                className="absolute inset-0 h-full w-full border-0"
+                style={{
+                  display: ttydEnabled ? "block" : "none",
+                  background: "var(--hok-terminal)",
+                }}
+              />
               <div
                 className="absolute inset-x-0 bottom-0 flex h-6 items-center justify-between border-t px-3 font-mono text-[9px] font-semibold"
                 style={{ background: "var(--hok-tmux)", color: "#132016", borderColor: "color-mix(in srgb, var(--hok-tmux) 55%, #000)" }}
